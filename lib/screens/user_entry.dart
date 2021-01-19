@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user.dart';
+
+class UserEntryScreen extends StatelessWidget {
+  final User user;
+
+  UserEntryScreen({this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Add a User'), actions: [
+        IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () {
+              _pickDate(context).then((value) {
+                print(value);
+              });
+            }),
+      ]),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'User Name',
+                border: InputBorder.none,
+              ),
+              // maxLines: 12,
+              // minLines: 10,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Role',
+                border: InputBorder.none,
+              ),
+              // maxLines: 1,
+              // minLines: 1,
+            ),
+            RaisedButton(
+              color: Theme.of(context).accentColor,
+              child: Text(
+                'Save',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {},
+            ),
+            (user != null)
+                ? RaisedButton(
+                    color: Colors.red,
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
+                    // If user is null, show empty container.
+                  )
+                : Container()
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<DateTime> _pickDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2019), lastDate: DateTime(2030));
+    if (picked != null) return picked;
+  }
+}
