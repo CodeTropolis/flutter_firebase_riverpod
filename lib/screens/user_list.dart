@@ -1,14 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/services/firestore_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:flutter_application_1/screens/entry.dart';
 
-final firebaseUserProvider = StreamProvider<List<User>>((ref) {
-  final stream = FirebaseFirestore.instance.collection('users').snapshots();
-  return stream.map((snapshot) => snapshot.docs.map((doc) => User.fromJson(doc.data())).toList());
-});
+final firestoreService = FirestoreService();
 
 class UserList extends HookWidget {
   @override
@@ -17,7 +13,7 @@ class UserList extends HookWidget {
       appBar: AppBar(
         title: Text('Users'),
       ),
-      body: useProvider(firebaseUserProvider).when(
+      body: useProvider(firestoreService.firebaseUserProvider).when(
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text(err.toString())),
           data: (users) {

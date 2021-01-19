@@ -11,4 +11,7 @@ class User {
   }
 
   // Convert data to JSON - required for sending data to Firebase.
+  Map<String, dynamic> toMap() {
+    return {'name': name, 'role': role};
+  }
 }
