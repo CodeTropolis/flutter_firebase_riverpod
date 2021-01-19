@@ -21,12 +21,13 @@ class MyApp extends HookWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(title: Text('Uber an Angel')),
+            appBar: AppBar(title: Text('Uber Angels')),
             body: useProvider(firebaseUserProvider).when(
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (err, stack) => Center(child: Text(err.toString())),
                 data: (users) {
-                  return ListView.builder(
+                  return ListView.separated(
+                      separatorBuilder: (c, i) => Divider(color: Colors.black54),
                       itemCount: users.length,
                       itemBuilder: (context, i) {
                         return ListTile(
