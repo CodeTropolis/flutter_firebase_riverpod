@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user.dart';
 
+class TextControllerWithId extends TextEditingController {
+  String id;
+  TextControllerWithId({@required this.id});
+}
+
 class UserEntryScreen extends StatelessWidget {
   final User user;
+  final nameController = TextControllerWithId(id: "name"); // id must match firestore key.
+  final roleController = TextControllerWithId(id: "role");
+  final descController = TextControllerWithId(id: "desc");
 
   UserEntryScreen({this.user});
 
@@ -23,20 +31,25 @@ class UserEntryScreen extends StatelessWidget {
         child: ListView(
           children: [
             TextField(
+              controller: nameController,
               decoration: InputDecoration(
                 labelText: 'User Name',
                 border: InputBorder.none,
               ),
-              // maxLines: 12,
-              // minLines: 10,
             ),
             TextField(
+              controller: roleController,
               decoration: InputDecoration(
                 labelText: 'Role',
                 border: InputBorder.none,
               ),
-              // maxLines: 1,
-              // minLines: 1,
+            ),
+            TextField(
+              controller: descController,
+              decoration: InputDecoration(
+                labelText: 'Description',
+                border: InputBorder.none,
+              ),
             ),
             RaisedButton(
               color: Theme.of(context).accentColor,
@@ -44,7 +57,9 @@ class UserEntryScreen extends StatelessWidget {
                 'Save',
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                _validate([nameController, roleController, descController]);
+              },
             ),
             (user != null)
                 ? RaisedButton(
@@ -66,5 +81,12 @@ class UserEntryScreen extends StatelessWidget {
   Future<DateTime> _pickDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2019), lastDate: DateTime(2030));
     if (picked != null) return picked;
+  }
+
+  _validate(List controllers) {
+    controllers.forEach((controller) {
+      (controller.text.isNotEmpty) ? print(controller.text) : print('${controller.id} required.');
+      controller.text = ''; // clear fields
+    });
   }
 }
