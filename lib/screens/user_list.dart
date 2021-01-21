@@ -28,7 +28,7 @@ class UserList extends HookWidget {
                     leading: Icon(Icons.arrow_forward_ios),
                     title: Text(users[i].name),
                     subtitle: Text(users[i].role),
-                    trailing: FloatingActionButton(child: Icon(Icons.delete), onPressed: () => firestoreService.deleteUser(users[i].id)),
+                    trailing: new IconButton(icon: Icon(Icons.delete), onPressed: () => firestoreService.deleteUser(users[i].id)),
                   );
                 });
           }),
