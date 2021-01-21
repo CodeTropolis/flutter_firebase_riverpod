@@ -1,7 +1,8 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/services/firestore_service.dart';
+
+final firestoreService = FirestoreService();
 
 class TextControllerWithId extends TextEditingController {
   String id;
@@ -22,15 +23,7 @@ class UserEntryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final fields = [nameController, roleController, descController];
     return Scaffold(
-      appBar: AppBar(title: Text('Add a User'), actions: [
-        IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              _pickDate(context).then((value) {
-                print(value);
-              });
-            }),
-      ]),
+      appBar: AppBar(title: Text('Add a User')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
@@ -83,21 +76,24 @@ class UserEntryScreen extends StatelessWidget {
     );
   }
 
-  Future<DateTime> _pickDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2019),
-        lastDate: DateTime(2030));
-    if (picked != null) return picked;
-  }
-
   _validate(List controllers) {
     controllers.forEach((controller) {
-      (controller.text.isNotEmpty)
-          ? print(controller.text)
-          : print('${controller.id} required.');
+      if (controller.text.isNotEmpty) {
+        print('${controller.id}:${controller.text}');
+      } else {
+        print('${controller.id} required.');
+      }
+
+      // final User _user = controller.id : controller.text; // i.e. name:"Frank", role:"Guardian", desc:"Foo ipsum..."
+
       controller.text = ''; // clear fields
     });
+  }
+
+  void dispose() {
+    fields.forEach((field) {
+      field.dispose();
+    });
+    // Clean up the controller when the widget is removed from the widget tree.
   }
 }
