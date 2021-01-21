@@ -69,7 +69,7 @@ class UserEntryScreen extends StatelessWidget {
                     onPressed: () {},
                     // If user is null, show empty container.
                   )
-                : Container()
+                : Container(),
           ],
         ),
       ),
@@ -80,7 +80,6 @@ class UserEntryScreen extends StatelessWidget {
     var newUser = new User();
     controllers.forEach((controller) {
       if (controller.text.isNotEmpty) {
-        // print('${controller.id}:${controller.text}');
         if (controller.id == 'name') {
           newUser.name = controller.text;
         }
@@ -93,9 +92,17 @@ class UserEntryScreen extends StatelessWidget {
       } else {
         print('${controller.id} required.');
       }
-      controller.text = ''; // clear fields
     });
-    firestoreService.setUser(newUser);
+
+    if (newUser.name != null && newUser.role != null && newUser.desc != null) {
+      firestoreService.setUser(newUser).then((_) {
+        controllers.forEach((controller) {
+          controller.text = ''; // clear fields
+        });
+      });
+    } else {
+      print('Please fill out all fields');
+    }
   }
 
   void dispose() {
