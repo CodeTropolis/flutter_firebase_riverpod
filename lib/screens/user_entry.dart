@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user.dart';
 
@@ -8,14 +10,17 @@ class TextControllerWithId extends TextEditingController {
 
 class UserEntryScreen extends StatelessWidget {
   final User user;
-  final nameController = TextControllerWithId(id: "name"); // id must match firestore key.
   final roleController = TextControllerWithId(id: "role");
   final descController = TextControllerWithId(id: "desc");
+  final nameController = TextControllerWithId(id: 'name');
+
+  final List<TextControllerWithId> fields = [];
 
   UserEntryScreen({this.user});
 
   @override
   Widget build(BuildContext context) {
+    final fields = [nameController, roleController, descController];
     return Scaffold(
       appBar: AppBar(title: Text('Add a User'), actions: [
         IconButton(
@@ -58,7 +63,7 @@ class UserEntryScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                _validate([nameController, roleController, descController]);
+                _validate(fields);
               },
             ),
             (user != null)
@@ -79,13 +84,19 @@ class UserEntryScreen extends StatelessWidget {
   }
 
   Future<DateTime> _pickDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2019), lastDate: DateTime(2030));
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2019),
+        lastDate: DateTime(2030));
     if (picked != null) return picked;
   }
 
   _validate(List controllers) {
     controllers.forEach((controller) {
-      (controller.text.isNotEmpty) ? print(controller.text) : print('${controller.id} required.');
+      (controller.text.isNotEmpty)
+          ? print(controller.text)
+          : print('${controller.id} required.');
       controller.text = ''; // clear fields
     });
   }
