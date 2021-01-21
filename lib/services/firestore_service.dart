@@ -5,7 +5,11 @@ import 'package:hooks_riverpod/all.dart';
 class FirestoreService {
   final firebaseUserProvider = StreamProvider<List<User>>((ref) {
     final stream = FirebaseFirestore.instance.collection('users').snapshots();
-    return stream.map((snapshot) => snapshot.docs.map((doc) => User.fromJson({'id': doc.id, ...doc.data()})).toList());
+    return stream.map((snapshot) => snapshot.docs.map((doc) {
+          // print('doc id: ${doc.id}');
+          return User.fromJson({'id': doc.id, ...doc.data()});
+          // return User.fromJson(doc.data());
+        }).toList());
   });
 
   Future<void> setUser(User user) {

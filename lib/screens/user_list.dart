@@ -17,9 +17,6 @@ class UserList extends HookWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text(err.toString())),
           data: (users) {
-            users.forEach((element) {
-              print(element.id);
-            });
             return ListView.separated(
                 separatorBuilder: (c, i) => Divider(color: Colors.black26),
                 itemCount: users.length,
@@ -27,7 +24,7 @@ class UserList extends HookWidget {
                   return ListTile(
                     leading: Icon(Icons.arrow_forward_ios),
                     title: Text(users[i].name),
-                    subtitle: Text(users[i].role),
+                    subtitle: Text(users[i].id),
                     trailing: new IconButton(icon: Icon(Icons.delete), onPressed: () => firestoreService.deleteUser(users[i].id)),
                   );
                 });
