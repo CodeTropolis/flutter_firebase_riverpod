@@ -77,21 +77,30 @@ class UserEntryScreen extends StatelessWidget {
   }
 
   _validate(List controllers) {
+    var newUser = new User();
     controllers.forEach((controller) {
       if (controller.text.isNotEmpty) {
-        print('${controller.id}:${controller.text}');
+        // print('${controller.id}:${controller.text}');
+        if (controller.id == 'name') {
+          newUser.name = controller.text;
+        }
+        if (controller.id == 'role') {
+          newUser.role = controller.text;
+        }
+        if (controller.id == 'desc') {
+          newUser.desc = controller.text;
+        }
       } else {
         print('${controller.id} required.');
       }
-
-      // final User _user = controller.id : controller.text; // i.e. name:"Frank", role:"Guardian", desc:"Foo ipsum..."
-
       controller.text = ''; // clear fields
     });
+    firestoreService.setUser(newUser);
   }
 
   void dispose() {
     fields.forEach((field) {
+      print(field);
       field.dispose();
     });
     // Clean up the controller when the widget is removed from the widget tree.

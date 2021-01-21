@@ -1,7 +1,7 @@
 class User {
-  final String name;
-  final String role;
-  final String desc;
+  String name;
+  String role;
+  String desc;
 
   User({this.name, this.role, this.desc});
 
