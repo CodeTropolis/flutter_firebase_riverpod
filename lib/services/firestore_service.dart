@@ -19,11 +19,17 @@ class FirestoreService {
   }
 
   Future<void> upsertUser(User user) {
-    var options = SetOptions(merge: true);
+    print(user.id);
+    //var options = SetOptions(merge: true);
     var uuid = new Uuid();
     var _id = uuid.v4();
-    var _user = new User(id: _id, name: user.name, role: user.role, desc: user.desc);
-    return _usersCollection.doc(_id).set(_user.toMap(), options);
+
+    if (user.id != null) {
+      return _usersCollection.doc(user.id).set(user.toMap());
+    } else {
+      var _user = new User(id: _id, name: user.name, role: user.role, desc: user.desc);
+      return _usersCollection.doc(_id).set(_user.toMap());
+    }
   }
 
   Future<void> deleteUser(String userId) {

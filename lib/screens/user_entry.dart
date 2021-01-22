@@ -22,6 +22,11 @@ class UserEntryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fields = [nameController, roleController, descController];
+    if (user != null) {
+      nameController.text = user.name;
+      roleController.text = user.role;
+      descController.text = user.desc;
+    }
     return Scaffold(
       appBar: AppBar(title: Text('Add a User')),
       body: Padding(
@@ -56,7 +61,11 @@ class UserEntryScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                _validate(fields);
+                String userId;
+                if (user != null) {
+                  userId = user.id;
+                }
+                _validate(fields, userId);
               },
             ),
             (user != null)
@@ -76,26 +85,31 @@ class UserEntryScreen extends StatelessWidget {
     );
   }
 
-  _validate(List controllers) {
-    var newUser = new User();
+  _validate(List controllers, [String userId]) {
+    var _user = new User();
+
+    if (userId != null) {
+      _user.id = userId;
+    }
+
     controllers.forEach((controller) {
       if (controller.text.isNotEmpty) {
         if (controller.id == 'name') {
-          newUser.name = controller.text;
+          _user.name = controller.text;
         }
         if (controller.id == 'role') {
-          newUser.role = controller.text;
+          _user.role = controller.text;
         }
         if (controller.id == 'desc') {
-          newUser.desc = controller.text;
+          _user.desc = controller.text;
         }
       } else {
         print('${controller.id} required.');
       }
     });
 
-    if (newUser.name != null && newUser.role != null && newUser.desc != null) {
-      firestoreService.upsertUser(newUser).then((_) {
+    if (_user.name != null && _user.role != null && _user.desc != null) {
+      firestoreService.upsertUser(_user).then((_) {
         controllers.forEach((controller) {
           controller.text = ''; // clear fields
         });
