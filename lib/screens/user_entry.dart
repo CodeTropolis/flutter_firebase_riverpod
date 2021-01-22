@@ -10,7 +10,7 @@ class TextControllerWithId extends TextEditingController {
 }
 
 class UserEntryScreen extends StatelessWidget {
-  final User user;
+  User user;
   final roleController = TextControllerWithId(id: "role");
   final descController = TextControllerWithId(id: "desc");
   final nameController = TextControllerWithId(id: 'name');
@@ -75,9 +75,11 @@ class UserEntryScreen extends StatelessWidget {
                       'Delete',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () => firestoreService
+                        .deleteUser(user.id)
+                        .then((value) => clearFields(fields))
                     // If user is null, show empty container.
-                  )
+                    )
                 : Container(),
           ],
         ),
@@ -85,38 +87,44 @@ class UserEntryScreen extends StatelessWidget {
     );
   }
 
-  _validate(List controllers, [String userId]) {
+  _validate(List fields, [String userId]) {
     var _user = new User();
 
     if (userId != null) {
       _user.id = userId;
     }
 
-    controllers.forEach((controller) {
-      if (controller.text.isNotEmpty) {
-        if (controller.id == 'name') {
-          _user.name = controller.text;
+    fields.forEach((field) {
+      if (field.text.isNotEmpty) {
+        if (field.id == 'name') {
+          _user.name = field.text;
         }
-        if (controller.id == 'role') {
-          _user.role = controller.text;
+        if (field.id == 'role') {
+          _user.role = field.text;
         }
-        if (controller.id == 'desc') {
-          _user.desc = controller.text;
+        if (field.id == 'desc') {
+          _user.desc = field.text;
         }
       } else {
-        print('${controller.id} required.');
+        print('${field.id} required.');
       }
     });
 
     if (_user.name != null && _user.role != null && _user.desc != null) {
       firestoreService.upsertUser(_user).then((_) {
-        controllers.forEach((controller) {
+        fields.forEach((controller) {
           controller.text = ''; // clear fields
         });
       });
     } else {
       print('Please fill out all fields');
     }
+  }
+
+  void clearFields(fields) {
+    fields.forEach((field) {
+      field.clear();
+    });
   }
 
   void dispose() {
