@@ -14,10 +14,10 @@ class UserEntryScreen extends StatelessWidget {
   final roleController = TextControllerWithId(id: "role");
   final descController = TextControllerWithId(id: "desc");
   final nameController = TextControllerWithId(id: 'name');
-
   final List<TextControllerWithId> fields = [];
 
-  UserEntryScreen({this.user});
+// Param wrapped in [] is an optional param
+  UserEntryScreen([this.user]);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class UserEntryScreen extends StatelessWidget {
     });
 
     if (newUser.name != null && newUser.role != null && newUser.desc != null) {
-      firestoreService.setUser(newUser).then((_) {
+      firestoreService.upsertUser(newUser).then((_) {
         controllers.forEach((controller) {
           controller.text = ''; // clear fields
         });

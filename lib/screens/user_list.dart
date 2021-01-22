@@ -22,11 +22,11 @@ class UserList extends HookWidget {
                 itemCount: users.length,
                 itemBuilder: (c, i) {
                   return ListTile(
-                    leading: Icon(Icons.arrow_forward_ios),
-                    title: Text(users[i].name),
-                    subtitle: Text(users[i].id),
-                    trailing: new IconButton(icon: Icon(Icons.delete), onPressed: () => firestoreService.deleteUser(users[i].id)),
-                  );
+                      leading: Icon(Icons.arrow_forward_ios),
+                      title: Text(users[i].name),
+                      subtitle: Text(users[i].role),
+                      trailing: IconButton(icon: Icon(Icons.delete), onPressed: () => firestoreService.deleteUser(users[i].id)),
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserEntryScreen(users[i]))));
                 });
           }),
       floatingActionButton: FloatingActionButton(
