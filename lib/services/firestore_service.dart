@@ -20,7 +20,6 @@ class FirestoreService {
 
   Future<void> upsertUser(User user) {
     print(user.id);
-    //var options = SetOptions(merge: true);
     var uuid = new Uuid();
     var _id = uuid.v4();
 

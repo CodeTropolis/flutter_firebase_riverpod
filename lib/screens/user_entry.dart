@@ -75,9 +75,7 @@ class UserEntryScreen extends StatelessWidget {
                       'Delete',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () => firestoreService
-                        .deleteUser(user.id)
-                        .then((value) => clearFields(fields))
+                    onPressed: () => firestoreService.deleteUser(user.id).then((value) => clearFields(fields))
                     // If user is null, show empty container.
                     )
                 : Container(),
@@ -87,7 +85,7 @@ class UserEntryScreen extends StatelessWidget {
     );
   }
 
-  _validate(List fields, [String userId]) {
+  _validate(List<TextControllerWithId> fields, [String userId]) {
     var _user = new User();
 
     if (userId != null) {
@@ -96,6 +94,8 @@ class UserEntryScreen extends StatelessWidget {
 
     fields.forEach((field) {
       if (field.text.isNotEmpty) {
+        // Desired: Get the name key from an interation of field.id, where id = name, role, or desc
+        // _user[field.id] = field.text;
         if (field.id == 'name') {
           _user.name = field.text;
         }
@@ -113,7 +113,7 @@ class UserEntryScreen extends StatelessWidget {
     if (_user.name != null && _user.role != null && _user.desc != null) {
       firestoreService.upsertUser(_user).then((_) {
         fields.forEach((controller) {
-          controller.text = ''; // clear fields
+          controller.clear();
         });
       });
     } else {
