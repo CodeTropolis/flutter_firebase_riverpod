@@ -10,7 +10,7 @@ class TextControllerWithId extends TextEditingController {
 }
 
 class UserEntryScreen extends StatelessWidget {
-  User user;
+  final User user;
   final roleController = TextControllerWithId(id: "role");
   final descController = TextControllerWithId(id: "desc");
   final nameController = TextControllerWithId(id: 'name');
@@ -90,12 +90,13 @@ class UserEntryScreen extends StatelessWidget {
 
     if (userId != null) {
       _user.id = userId;
+      print('in user_entry. userId = ${_user.id}');
     }
+    // Desired: Get the name key from an interation of field.id, where id = name, role, or desc
+    // _user[field.id] = field.text;
 
     fields.forEach((field) {
       if (field.text.isNotEmpty) {
-        // Desired: Get the name key from an interation of field.id, where id = name, role, or desc
-        // _user[field.id] = field.text;
         if (field.id == 'name') {
           _user.name = field.text;
         }
