@@ -113,9 +113,7 @@ class UserEntryScreen extends StatelessWidget {
 
     if (_user.name != null && _user.role != null && _user.desc != null) {
       firestoreService.upsertUser(_user).then((_) {
-        fields.forEach((controller) {
-          controller.clear();
-        });
+        clearFields(fields);
       });
     } else {
       print('Please fill out all fields');
