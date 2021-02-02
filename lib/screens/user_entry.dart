@@ -90,7 +90,7 @@ class UserEntryScreen extends StatelessWidget {
 
     if (userId != null) {
       _user.id = userId;
-      print('in user_entry. userId = ${_user.id}');
+      // print('in user_entry. userId = ${_user.id}');
     }
     // Desired: Get the name key from an interation of field.id, where id = name, role, or desc
     // _user[field.id] = field.text;
@@ -128,7 +128,7 @@ class UserEntryScreen extends StatelessWidget {
 
   void dispose() {
     fields.forEach((field) {
-      print(field);
+      // print(field);
       field.dispose();
     });
     // Clean up the controller when the widget is removed from the widget tree.
