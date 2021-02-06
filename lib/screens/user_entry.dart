@@ -28,7 +28,7 @@ class UserEntryScreen extends StatelessWidget {
       descController.text = user.desc;
     }
     return Scaffold(
-      appBar: AppBar(title: Text('Add a User')),
+      appBar: AppBar(title: Text(user != null ? 'Update ${user.name}' : 'Add a User')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
@@ -114,6 +114,9 @@ class UserEntryScreen extends StatelessWidget {
 
     if (_user.name != null && _user.role != null && _user.desc != null) {
       firestoreService.upsertUser(_user).then((_) {
+        nameController.text = 'foo';
+        // if user is not null we are editing a user, so upon save, retain the values in the texfields.
+        // else we are creating a new user so clear fields.
         // clearFields(fields);
       });
     } else {

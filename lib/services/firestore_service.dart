@@ -14,9 +14,9 @@ class FirestoreService {
         }).toList());
   });
 
-  Future<void> getUser(String userId) {
-    return _usersCollection.doc(userId).get();
-  }
+  // Future<void> getUser(String userId) {
+  //   return _usersCollection.doc(userId).get();
+  // }
 
   Future<void> upsertUser(User user) {
     // print(user.id);
