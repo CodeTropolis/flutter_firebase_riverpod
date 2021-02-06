@@ -57,7 +57,7 @@ class UserEntryScreen extends StatelessWidget {
             RaisedButton(
               color: Theme.of(context).accentColor,
               child: Text(
-                'Save',
+                user != null ? 'Update' : 'Save',
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
@@ -90,7 +90,6 @@ class UserEntryScreen extends StatelessWidget {
 
     if (userId != null) {
       _user.id = userId;
-      // print('in user_entry. userId = ${_user.id}');
     }
     // Desired: Get the name key from an interation of field.id, where id = name, role, or desc
     // _user[field.id] = field.text;

@@ -19,7 +19,7 @@ class UserList extends HookWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text(err.toString())),
           data: (users) {
-            print('$location');
+            // print('$location');
             return ListView.separated(
                 separatorBuilder: (c, i) => Divider(color: Colors.black26),
                 itemCount: users.length,
