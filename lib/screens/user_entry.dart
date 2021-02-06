@@ -75,7 +75,9 @@ class UserEntryScreen extends StatelessWidget {
                       'Delete',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () => firestoreService.deleteUser(user.id).then((value) => clearFields(fields))
+                    onPressed: () => firestoreService.deleteUser(user.id)
+                    // Does not clear fields.
+                    //.then((value) => clearFields(fields))
                     // If user is null, show empty container.
                     )
                 : Container(),
@@ -112,7 +114,7 @@ class UserEntryScreen extends StatelessWidget {
 
     if (_user.name != null && _user.role != null && _user.desc != null) {
       firestoreService.upsertUser(_user).then((_) {
-        clearFields(fields);
+        // clearFields(fields);
       });
     } else {
       print('Please fill out all fields');
