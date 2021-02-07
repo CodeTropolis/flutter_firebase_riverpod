@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user.dart';
 import 'package:flutter_application_1/services/firestore_service.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 final firestoreService = FirestoreService();
 
@@ -114,7 +115,9 @@ class UserEntryScreen extends StatelessWidget {
 
     if (_user.name != null && _user.role != null && _user.desc != null) {
       firestoreService.upsertUser(_user).then((_) {
-        nameController.text = 'foo';
+        print(_user.name);
+        // nameController.text = 'foo'; // will change text field to display foo
+        nameController.text = _user.name; // won't change text field to display user input - field snaps back to init value
         // if user is not null we are editing a user, so upon save, retain the values in the texfields.
         // else we are creating a new user so clear fields.
         // clearFields(fields);
