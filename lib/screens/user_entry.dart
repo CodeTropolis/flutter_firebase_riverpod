@@ -10,7 +10,7 @@ class TextControllerWithId extends TextEditingController {
   TextControllerWithId({@required this.id});
 }
 
-class UserEntryScreen extends StatelessWidget {
+class UserEntryScreen extends HookWidget {
   final User user;
   final roleController = TextControllerWithId(id: "role");
   final descController = TextControllerWithId(id: "desc");
@@ -117,7 +117,7 @@ class UserEntryScreen extends StatelessWidget {
       firestoreService.upsertUser(_user).then((_) {
         print(_user.name);
         // nameController.text = 'foo'; // will change text field to display foo
-        nameController.text = _user.name; // won't change text field to display user input - field snaps back to init value
+        nameController.value = _user.name as TextEditingValue; // won't change text field to display user input - field snaps back to init value
         // if user is not null we are editing a user, so upon save, retain the values in the texfields.
         // else we are creating a new user so clear fields.
         // clearFields(fields);
